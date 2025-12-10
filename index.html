@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>mihalichparty.fun — офіціальний сайт должніков Міхалича</title>
+  <style>
+    :root {
+      --bg: #0d0d10;           /* фон */
+      --card-bg: #18181f;      /* карточки */
+      --border-soft: #27272f;
+
+      --text-main: #f9fafb;    /* основной текст */
+      --text-soft: #9ca3af;    /* вторичный */
+
+      --accent: #ff7b39;       /* оранжевый акцент */
+      --accent-soft: #fb923c;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    a {
+      color: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-soft);
+      background: rgba(10, 10, 14, 0.96);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .logo {
+      font-size: 18px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    nav {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      padding: 5px 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      background: #15151b;
+      color: var(--text-main);
+      transition: background 0.08s ease, color 0.08s ease, box-shadow 0.08s ease, border-color 0.08s ease;
+    }
+
+    .nav-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #1f1f26;
+      box-shadow: 0 0 0 1px rgba(255, 123, 57, 0.4);
+    }
+
+    main {
+      padding: 14px;
+      max-width: 1150px;
+      margin: 0 auto 40px;
+    }
+
+    .grid-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(0, 1.2fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      position: relative;
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      background: var(--card-bg);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65);
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 60%);
+      opacity: 1;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .pill {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      color: var(--text-soft);
+      background: rgba(10, 10, 14, 0.9);
+      text-transform: uppercase;
+    }
+
+    .small-text {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-soft), transparent);
+      margin: 4px 0 6px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* ACCOUNT PANEL */
+    .account-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .account-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--accent-soft);
+      background: #111;
+      flex-shrink: 0;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .input {
+      width: 100%;
+      padding: 5px 7px;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      background: #111118;
+      color: var(--text-main);
+      font-size: 12px;
+      font-family: inherit;
+    }
+
+    .select {
+      padding: 5px 7px;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      background: #111118;
+      color: var(--text-main);
+      font-size: 12px;
+      font-family: inherit;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #111;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      font-size: 11px;
+      padding: 6px 10px;
+      cursor: pointer;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.1s ease;
+    }
+
+    .btn:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      transform: translateY(-1px);
+      background: var(--accent-soft);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--border-soft);
+      color: var(--text-soft);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-danger {
+      border-color: var(--danger);
+      background: var(--danger);
+      color: #111;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .btn-sm {
+      font-size: 10px;
+      padding: 4px 8px;
+    }
+
+    .badge-voice {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(15, 15, 20, 0.9);
+      color: var(--accent-soft);
+    }
+
+    /* FEED */
+    .feed-new {
+      margin-bottom: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 70px;
+      max-height: 140px;
+      resize: vertical;
+      padding: 6px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background: #111118;
+      color: var(--text-main);
+      font-size: 12px;
+      font-family: inherit;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .feed-list {
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .post {
+      border-radius: 10px;
+      border: 1px solid rgba(39, 39, 47, 0.9);
+      background: #111118;
+      padding: 6px 8px;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 3px;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .post-user {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .post-user img {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+    }
+
+    .post-name {
+      color: var(--accent-soft);
+    }
+
+    .post-tag {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      color: var(--text-soft);
+    }
+
+    .post-image {
+      margin-top: 4px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      max-height: 180px;
+    }
+
+    .post-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* VOICE CHAT */
+    .voice-list {
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: 4px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .voice-item {
+      border-radius: 9px;
+      border: 1px solid var(--border-soft);
+      background: #111118;
+      padding: 4px 6px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .voice-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .voice-top {
+      font-size: 10px;
+      color: var(--text-soft);
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .voice-text {
+      font-size: 11px;
+      color: var(--text-main);
+    }
+
+    /* DRAWING */
+    .draw-wrapper {
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      background: #111118;
+      padding: 6px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 220px;
+      background:
+        repeating-linear-gradient(45deg, #111118, #111118 8px, #14141c 8px, #14141c 16px);
+      border-radius: 10px;
+      cursor: crosshair;
+      display: block;
+    }
+
+    .draw-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 5px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    /* GAME */
+    .game-box {
+      border-radius: 12px;
+      border: 1px dashed var(--border-soft);
+      background: #111118;
+      padding: 6px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .score-badge {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-soft);
+      color: var(--accent-soft);
+      background: rgba(15, 15, 20, 0.9);
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .leaderboard {
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: 3px;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .lb-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+      border-bottom: 1px dashed var(--border-soft);
+    }
+
+    .lb-row span:first-child {
+      color: var(--text-main);
+    }
+
+    footer {
+      padding: 10px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-soft);
+      border-top: 1px solid var(--border-soft);
+      background: #111118;
+    }
+
+    .ticker {
+      background: #111118;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 12px;
+      padding: 6px 0;
+      overflow: hidden;
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .ticker-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: tickerMove 18s linear infinite;
+    }
+
+    @keyframes tickerMove {
+      0% { transform: translateX(100vw); }
+      100% { transform: translateX(-100vw); }
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090910;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-block">
+    <div class="logo">mihalich<span>party.fun</span></div>
+    <div class="subtitle">
+      офіціальний портал должніков, емочек і крінж-королів. міхалич слідкує 👁
+    </div>
+  </div>
+  <nav>
+    <button class="nav-btn active" data-page="main">главна</button>
+    <button class="nav-btn" data-page="chat">пости/чат</button>
+    <button class="nav-btn" data-page="paint">рисовалка</button>
+    <button class="nav-btn" data-page="games">ігри/лідерборд</button>
+    <button class="nav-btn" data-page="account">аккаунт</button>
+  </nav>
+</header>
+
+<main>
+  <div class="grid-main">
+
+    <!-- LEFT COLUMN: ACCOUNT + VOICE CHAT (section changes by page) -->
+    <section class="card">
+      <div class="card-inner">
+
+        <!-- ACCOUNT SECTION (page: account / main mini) -->
+        <div id="section-account" class="section active">
+          <div class="card-title">
+            👤 Аккаунт должніка
+            <span class="pill">профіль</span>
+          </div>
+          <div class="divider"></div>
+          <p class="small-text">
+            Введи нік, картінку і голосовий пресет. Це буде показано в постах, голосових і граффіті.
+          </p>
+
+          <div class="account-panel">
+            <div class="account-row">
+              <div class="avatar">
+                <img id="avatarPreview" src="https://i.imgur.com/4ZQZ4Yy.png" alt="avatar">
+              </div>
+              <div style="flex:1;">
+                <input id="usernameInput" class="input" placeholder="нік (типо 'шлак_із_підїзда')" />
+                <input id="avatarInput" class="input" placeholder="url на аватар (картінка)" style="margin-top:4px;">
+              </div>
+            </div>
+
+            <div class="account-row">
+              <span class="small-text">голос:</span>
+              <select id="voicePreset" class="select">
+                <option value="base">normal (0 cents)</option>
+                <option value="p200">pitch +200 cents (чуть вище)</option>
+                <option value="m200">pitch -200 cents (чуть нижче)</option>
+                <option value="p400">pitch +400 cents (аніме мальчік)</option>
+                <option value="m400">pitch -400 cents (дядя з підвала)</option>
+              </select>
+              <span id="voiceBadge" class="badge-voice">пресет: normal</span>
+            </div>
+
+            <div class="account-row" style="justify-content:flex-end; gap:6px;">
+              <button class="btn btn-sm" onclick="saveProfile()">зберегти</button>
+              <button class="btn-ghost btn-sm" onclick="resetProfile()">обнулить</button>
+            </div>
+
+            <p class="small-text" id="accountStatus">
+              статус: гість. збережи профіль шоб стати офіційним должніком.
+            </p>
+          </div>
+        </div>
+
+        <!-- VOICE CHAT SECTION (page: chat) -->
+        <div id="section-voice" class="section">
+          <div class="card-title">
+            🔊 «Голосовой чат» міхалич-стайл
+            <span class="pill">tts чат</span>
+          </div>
+          <div class="divider"></div>
+          <p class="small-text">
+            Тут ти пишеш як будто голосове, а движок читає текст голосом з твоїм pitch.  
+            У всіх разний голос по пресету. Це дешевий Discord від Міхалича.
+          </p>
+
+          <textarea id="voiceInput" placeholder="напишіть сюда текст голосового..."></textarea>
+          <div class="btn-row">
+            <button class="btn btn-sm" onclick="sendVoice()">відправить голосове</button>
+            <button class="btn-ghost btn-sm" onclick="testMyVoice()">прослухать свій пресет</button>
+          </div>
+
+          <div class="voice-list" id="voiceList"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CENTER COLUMN: MAIN + FEED -->
+    <section class="card">
+      <div class="card-inner">
+
+        <!-- MAIN PAGE -->
+        <div id="section-main" class="section active">
+          <div class="card-title">
+            🎉 mihalichparty.fun
+            <span class="pill">главна</span>
+          </div>
+          <div class="divider"></div>
+          <p class="small-text">
+            Рібята це офіціальний портал де:
+            <br>— ви робите пости як дегенерати  
+            <br>— кричите в «голосовой чат» з фейковим голосом  
+            <br>— малюєте граффіті на одній мапі  
+            <br>— змагаєтесь в тупих іграх за звання «любимий должнік Міхалича».
+          </p>
+          <p class="small-text">
+            Шоб всьо рабитало норм: <b>заповніть аккаунт</b>, а потім йдіть по вкладкам.  
+            Нічо не качається, всьо в браузері, поліція спить.
+          </p>
+        </div>
+
+        <!-- CHAT/POST FEED -->
+        <div id="section-chat" class="section">
+          <div class="card-title">
+            💬 Фід должніков
+            <span class="pill">пости/чат</span>
+          </div>
+          <div class="divider"></div>
+          <p class="small-text">
+            Пости бачать всі, кто на сайті. Пиши, добавляй картінки (url), строй крінж-імідж.
+          </p>
+
+          <div class="feed-new">
+            <textarea id="postText" placeholder="напиши сюда пост, крик душі, мем, депру..."></textarea>
+            <input id="postImageUrl" class="input" placeholder="url на картінку (не обов'язково)" style="margin-top:4px;">
+
+            <div class="btn-row">
+              <button class="btn btn-sm" onclick="createPost()">запостить</button>
+              <button class="btn-ghost btn-sm" onclick="generateRandomPost()">рандомний пост</button>
+              <button class="btn-danger btn-sm" onclick="clearMyPosts()">стереть своє (локально)</button>
+            </div>
+
+            <p class="small-text">
+              ⚠ Пости хранятся в Firebase Firestore (общі для всіх).  
+              Кнопка «стереть» удаляє тільки кєш у тебе, не із мира должніков.
+            </p>
+          </div>
+
+          <div class="feed-list" id="feedList"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: DRAW / GAMES -->
+    <section class="card">
+      <div class="card-inner">
+
+        <!-- DRAW -->
+        <div id="section-paint" class="section">
+          <div class="card-title">
+            🖌 Глобальна рисовалка
+            <span class="pill">граффіті мапа</span>
+          </div>
+          <div class="divider"></div>
+          <p class="small-text">
+            Тут один великий холст для всіх. Кожен штрих летить в Firebase.  
+            Натисни на холст щоб малювати, усі бачать твой шедевр. Не малюй х*йню… хоча кого я прошу.
+          </p>
+
+          <div class="draw-wrapper">
+            <canvas id="paintCanvas"></canvas>
+            <div class="draw-controls">
+              <span>колір:</span>
+              <input type="color" id="drawColor" value="#ff7b39">
+              <span>розмір:</span>
+              <input type="range" id="drawSize" min="1" max="20" value="4">
+              <button class="btn-ghost btn-sm" onclick="clearLocalCanvas()">очистити локально</button>
+            </div>
+            <p class="small-text">
+              ⚠ Очистка тільки на твоєму екрані, данные в Firestore остаются.  
+              Якщо хочеш реальний вайп — потрібен адміністратор Міхалич v2.
+            </p>
+          </div>
+        </div>
+
+        <!-- GAMES -->
+        <div id="section-games" class="section">
+          <div class="card-title">
+            🕹 Ігри Міхалича
+            <span class="pill">2 мінімум</span>
+          </div>
+          <div class="divider"></div>
+
+          <!-- GAME 1: CLICKER -->
+          <div class="game-box">
+            <div class="score-badge" id="scoreClickBadge">clicker score: 0</div>
+            <p class="small-text">
+              Ігра №1: «Клікни борг». Просто тисни на кнопку, збирай поінти.  
+              Можеш зберегти результат в лідерборд.
+            </p>
+            <div class="btn-row">
+              <button class="btn btn-sm" onclick="clickGame()">клікнути борг</button>
+              <button class="btn-ghost btn-sm" onclick="resetClickGame()">обнулить себе</button>
+              <button class="btn btn-sm" onclick="saveScore('clicker')">зберегти в топ</button>
+            </div>
+            <p class="small-text" id="clickComment"></p>
+          </div>
+
+          <!-- GAME 2: REACTION -->
+          <div class="game-box">
+            <div class="score-badge" id="scoreReactBadge">reaction best: —</div>
+            <p class="small-text">
+              Ігра №2: «Реакція на Міхалича».  
+              Жми «старт», жди поки коробка стане <span style="color:var(--accent-soft);">зеленою</span>, потім клік.  
+              Чим менший час, тим ти менше залипаєш.
+            </p>
+            <div style="margin:6px 0;">
+              <div id="reactBox" style="height:60px; border-radius:10px; background:#3b1111; display:flex; align-items:center; justify-content:center; font-size:12px;">
+                ждьом старт...
+              </div>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-sm" onclick="startReactionGame()">старт</button>
+              <button class="btn btn-sm" onclick="saveScore('reaction')">зберегти в топ</button>
+            </div>
+            <p class="small-text" id="reactComment"></p>
+          </div>
+
+          <!-- LEADERBOARD -->
+          <div class="game-box">
+            <p class="small-text">
+              🏆 Таблиця лідерів (обща для всіх).  
+              Хто найбільше клікнув і хто найшвидше зреагував.
+            </p>
+            <div class="leaderboard" id="leaderboard"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    УВАГА: ВСІ ДОЛЖНІКІ МІХАЛИЧА ОБЯЗАНІ ЗАЙТИ НА САЙТ, ЗРОБИТИ ПОСТ, ГОЛОСОВЕ І ХОЧ РАЗ ВИГРАТИ В ІГРІ. НЕ ВИКОНАВ — ПОД ПРОЦЕНТАМІ!!! 💸💸💸
+  </div>
+</div>
+
+<footer>
+  © mihalichparty.fun — якщо ти це читаєш, ти автоматічно должен 50 грн.  
+  Сайт робився в ночі, без сна, без технічки, в чест Міхалича.
+</footer>
+
+<!-- Firebase (compat version для простоти) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
+
+<script>
+  // -----------------------------------------------------------
+  // 1. Firebase конфіг — твій реальний
+  // -----------------------------------------------------------
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMt6y5Ys7a1wjiqftkoC_EsjHmcaJrvYo",
+    authDomain: "mihalichpartyfun.firebaseapp.com",
+    projectId: "mihalichpartyfun",
+    storageBucket: "mihalichpartyfun.firebasestorage.app",
+    messagingSenderId: "489168444978",
+    appId: "1:489168444978:web:3b1970550ce6d39c03262b",
+    measurementId: "G-BQZBY5JZXM"
+  };
+
+  let db = null;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+  } catch (e) {
+    console.warn("Firebase не сконфігурований, працюємо локально без онлайна.", e);
+  }
+
+  // -----------------------------------------------------------
+  // 2. SPA навігація
+  // -----------------------------------------------------------
+  const navButtons = document.querySelectorAll(".nav-btn");
+  const sectionMain = document.getElementById("section-main");
+  const sectionChat = document.getElementById("section-chat");
+  const sectionPaint = document.getElementById("section-paint");
+  const sectionGames = document.getElementById("section-games");
+  const sectionAccount = document.getElementById("section-account");
+  const sectionVoice = document.getElementById("section-voice");
+
+  function setPage(page) {
+    navButtons.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.page === page);
+    });
+
+    [sectionMain, sectionChat, sectionPaint, sectionGames, sectionAccount, sectionVoice]
+      .forEach(sec => sec && sec.classList.remove("active"));
+
+    if (page === "main") sectionMain.classList.add("active");
+    if (page === "chat") {
+      sectionChat.classList.add("active");
+      sectionVoice.classList.add("active");
+    }
+    if (page === "paint") sectionPaint.classList.add("active");
+    if (page === "games") sectionGames.classList.add("active");
+    if (page === "account") sectionAccount.classList.add("active");
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => setPage(btn.dataset.page));
+  });
+
+  // -----------------------------------------------------------
+  // 3. Профіль юзера (localStorage)
+  // -----------------------------------------------------------
+  const usernameInput = document.getElementById("usernameInput");
+  const avatarInput = document.getElementById("avatarInput");
+  const avatarPreview = document.getElementById("avatarPreview");
+  const voicePreset = document.getElementById("voicePreset");
+  const voiceBadge = document.getElementById("voiceBadge");
+  const accountStatus = document.getElementById("accountStatus");
+
+  const STORAGE_PROFILE = "mihalichparty_profile";
+
+  let currentProfile = {
+    name: "",
+    avatar: "https://i.imgur.com/4ZQZ4Yy.png",
+    voice: "base"
+  };
+
+  function loadProfile() {
+    try {
+      const raw = localStorage.getItem(STORAGE_PROFILE);
+      if (raw) {
+        currentProfile = JSON.parse(raw);
+      }
+    } catch(e) { }
+
+    usernameInput.value = currentProfile.name || "";
+    avatarInput.value = currentProfile.avatar || "";
+    avatarPreview.src = currentProfile.avatar || "https://i.imgur.com/4ZQZ4Yy.png";
+    voicePreset.value = currentProfile.voice || "base";
+    updateVoiceBadge();
+
+    accountStatus.textContent = currentProfile.name
+      ? `статус: офіціальний должнік з ніком "${currentProfile.name}".`
+      : "статус: гість. збережи профіль шоб стати офіційним должніком.";
+  }
+
+  function saveProfile() {
+    currentProfile.name = usernameInput.value.trim() || "анонімний должнік";
+    currentProfile.avatar = avatarInput.value.trim() || "https://i.imgur.com/4ZQZ4Yy.png";
+    currentProfile.voice = voicePreset.value;
+
+    avatarPreview.src = currentProfile.avatar;
+    updateVoiceBadge();
+
+    localStorage.setItem(STORAGE_PROFILE, JSON.stringify(currentProfile));
+    accountStatus.textContent = `статус: офіціальний должнік з ніком "${currentProfile.name}".`;
+  }
+
+  function resetProfile() {
+    currentProfile = {
+      name: "",
+      avatar: "https://i.imgur.com/4ZQZ4Yy.png",
+      voice: "base"
+    };
+    localStorage.removeItem(STORAGE_PROFILE);
+    loadProfile();
+  }
+
+  function updateVoiceBadge() {
+    const v = voicePreset.value;
+    let text = "";
+    if (v === "base") text = "normal (0)";
+    if (v === "p200") text = "pitch +200 (чуть вище)";
+    if (v === "m200") text = "pitch -200 (чуть нижче)";
+    if (v === "p400") text = "pitch +400 (аніме мальчік)";
+    if (v === "m400") text = "pitch -400 (дядя з підвала)";
+    voiceBadge.textContent = "пресет: " + text;
+  }
+
+  voicePreset.addEventListener("change", updateVoiceBadge);
+
+  // -----------------------------------------------------------
+  // 4. FEED / пости (Firestore)
+  // -----------------------------------------------------------
+  const postText = document.getElementById("postText");
+  const postImageUrl = document.getElementById("postImageUrl");
+  const feedList = document.getElementById("feedList");
+
+  const randomTags = [
+    "#крінж", "#депра", "#вайб", "#нічь", "#должнік",
+    "#2007", "#емо", "#scene", "#нічого_не_понял"
+  ];
+
+  function getTag() {
+    return randomTags[Math.floor(Math.random() * randomTags.length)];
+  }
+
+  async function createPost() {
+    if (!db) {
+      alert("Firebase не підключен, пости не летять в інтернет. Потрібен firebaseConfig.");
+      return;
+    }
+    const text = postText.value.trim();
+    const img = postImageUrl.value.trim();
+    if (!text) return;
+
+    const now = new Date();
+    const time = now.toLocaleTimeString();
+
+    const doc = {
+      text,
+      image: img || null,
+      author: currentProfile.name || "анонімний должнік",
+      avatar: currentProfile.avatar || "",
+      tag: getTag(),
+      time,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    await db.collection("posts").add(doc);
+    postText.value = "";
+    postImageUrl.value = "";
+  }
+
+  function renderPost(doc) {
+    const d = doc.data();
+    const div = document.createElement("div");
+    div.className = "post";
+
+    const header = document.createElement("div");
+    header.className = "post-header";
+
+    const left = document.createElement("div");
+    left.className = "post-user";
+    const img = document.createElement("img");
+    img.src = d.avatar || "https://i.imgur.com/4ZQZ4Yy.png";
+    const name = document.createElement("span");
+    name.className = "post-name";
+    name.textContent = d.author || "анонім";
+    const time = document.createElement("span");
+    time.textContent = d.time || "";
+
+    left.appendChild(img);
+    left.appendChild(name);
+    left.appendChild(time);
+
+    const right = document.createElement("span");
+    right.className = "post-tag";
+    right.textContent = d.tag || "#вайб";
+
+    header.appendChild(left);
+    header.appendChild(right);
+
+    const body = document.createElement("div");
+    body.textContent = d.text || "";
+
+    div.appendChild(header);
+    div.appendChild(body);
+
+    if (d.image) {
+      const imgWrap = document.createElement("div");
+      imgWrap.className = "post-image";
+      const pic = document.createElement("img");
+      pic.src = d.image;
+      imgWrap.appendChild(pic);
+      div.appendChild(imgWrap);
+    }
+
+    return div;
+  }
+
+  function subscribePosts() {
+    if (!db || !feedList) return;
+
+    db.collection("posts")
+      .orderBy("createdAt", "desc")
+      .limit(100)
+      .onSnapshot(snap => {
+        feedList.innerHTML = "";
+        snap.forEach(doc => {
+          feedList.appendChild(renderPost(doc));
+        });
+      });
+  }
+
+  function generateRandomPost() {
+    const templates = [
+      "Сижу на mihalichparty і думаю: це лечиться чи вже все?",
+      "Коли вже зарплата, якщо я навіть не работаю?",
+      "Я офіційно должнік, но хоча б стильний.",
+      "Якщо я пропаду з сайту, значіт Міхалич мене найшов.",
+      "Найкращий спорт — тікати від відповідальності.",
+      "Нєну а шо, хоч десь я можу страдать легально.",
+      "Поставив собі нік і вже думаю що в мене образ.",
+      "Ви тоже іногда слухаєте музон і представляєте шо ви в кліпі?",
+      "Сьогодні день продуктивності: я вже 4 години ничо не роблю.",
+      "Якщо в мене нема планів — це теж план, правильно?"
+    ];
+    postText.value = templates[Math.floor(Math.random() * templates.length)];
+  }
+
+  function clearMyPosts() {
+    feedList.innerHTML = "";
+  }
+
+  // -----------------------------------------------------------
+  // 5. FAKE VOICE CHAT (TTS + Firestore)
+  // -----------------------------------------------------------
+  const voiceInput = document.getElementById("voiceInput");
+  const voiceList = document.getElementById("voiceList");
+
+  function pitchToSpeechVal(preset) {
+    // speechSynthesis.pitch: 0..2
+    switch (preset) {
+      case "p200": return 1.2;
+      case "m200": return 0.8;
+      case "p400": return 1.4;
+      case "m400": return 0.6;
+      default: return 1.0;
+    }
+  }
+
+  function speakTextWithProfile(text, profileOrNull) {
+    if (!window.speechSynthesis) {
+      alert("У тебе немає TTS в браузері, голос не працює. Переустанови себе.");
+      return;
+    }
+    const u = new SpeechSynthesisUtterance(text);
+    const profile = profileOrNull || currentProfile;
+    u.pitch = pitchToSpeechVal(profile.voice || "base");
+    u.rate = 1.0;
+    u.lang = "uk-UA";
+    window.speechSynthesis.speak(u);
+  }
+
+  function testMyVoice() {
+    const text = "Я твіой голосовий пресет. Я звучю странно, но це спеціально.";
+    speakTextWithProfile(text, currentProfile);
+  }
+
+  async function sendVoice() {
+    if (!db) {
+      alert("Firebase не підключен, голосовий чат не онлайн. Потрібен firebaseConfig.");
+      return;
+    }
+    const text = voiceInput.value.trim();
+    if (!text) return;
+    const now = new Date();
+    const time = now.toLocaleTimeString();
+
+    const doc = {
+      text,
+      author: currentProfile.name || "анонімний должнік",
+      avatar: currentProfile.avatar || "",
+      voice: currentProfile.voice || "base",
+      time,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    await db.collection("voices").add(doc);
+    voiceInput.value = "";
+  }
+
+  function renderVoice(doc) {
+    const d = doc.data();
+    const item = document.createElement("div");
+    item.className = "voice-item";
+
+    const avatar = document.createElement("img");
+    avatar.src = d.avatar || "https://i.imgur.com/4ZQZ4Yy.png";
+    avatar.style.width = "26px";
+    avatar.style.height = "26px";
+    avatar.style.borderRadius = "999px";
+    avatar.style.objectFit = "cover";
+    avatar.style.border = "1px solid rgba(148, 163, 184, 0.9)";
+
+    const metaWrap = document.createElement("div");
+    metaWrap.className = "voice-meta";
+
+    const top = document.createElement("div");
+    top.className = "voice-top";
+    const name = document.createElement("span");
+    name.textContent = d.author || "анонім";
+    const time = document.createElement("span");
+    time.textContent = d.time || "";
+    const preset = document.createElement("span");
+    preset.className = "badge-voice";
+    preset.textContent = "preset: " + (d.voice || "base");
+
+    top.appendChild(name);
+    top.appendChild(time);
+    top.appendChild(preset);
+
+    const text = document.createElement("div");
+    text.className = "voice-text";
+    text.textContent = d.text || "";
+
+    const playBtn = document.createElement("button");
+    playBtn.className = "btn btn-sm";
+    playBtn.textContent = "▶️ прослухать";
+    playBtn.addEventListener("click", () => {
+      speakTextWithProfile(d.text || "", { voice: d.voice || "base" });
+    });
+
+    metaWrap.appendChild(top);
+    metaWrap.appendChild(text);
+
+    item.appendChild(avatar);
+    item.appendChild(metaWrap);
+    item.appendChild(playBtn);
+
+    return item;
+  }
+
+  function subscribeVoices() {
+    if (!db || !voiceList) return;
+    db.collection("voices")
+      .orderBy("createdAt", "desc")
+      .limit(100)
+      .onSnapshot(snap => {
+        voiceList.innerHTML = "";
+        snap.forEach(doc => {
+          voiceList.appendChild(renderVoice(doc));
+        });
+      });
+  }
+
+  // -----------------------------------------------------------
+  // 6. DRAW / GRAFFITI (Firestore strokes)
+  // -----------------------------------------------------------
+  const paintCanvas = document.getElementById("paintCanvas");
+  const drawColor = document.getElementById("drawColor");
+  const drawSize = document.getElementById("drawSize");
+  let ctx = null;
+  let drawing = false;
+  let lastX = 0;
+  let lastY = 0;
+
+  function resizeCanvas() {
+    if (!paintCanvas) return;
+    const rect = paintCanvas.getBoundingClientRect();
+    paintCanvas.width = rect.width;
+    paintCanvas.height = 220;
+  }
+
+  function getCanvasPos(e) {
+    const rect = paintCanvas.getBoundingClientRect();
+    if (e.touches && e.touches[0]) {
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top
+      };
+    } else {
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    }
+  }
+
+  function startDraw(e) {
+    drawing = true;
+    const pos = getCanvasPos(e);
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  function moveDraw(e) {
+    if (!drawing || !ctx) return;
+    const pos = getCanvasPos(e);
+    const color = drawColor.value;
+    const size = parseInt(drawSize.value, 10) || 4;
+
+    // локально рисуем линию
+    ctx.strokeStyle = color;
+    ctx.lineWidth = size;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+
+    // шлем штрих в Firestore
+    sendStrokeToFirestore(lastX, lastY, pos.x, pos.y, color, size);
+
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  function stopDraw() {
+    drawing = false;
+  }
+
+  function clearLocalCanvas() {
+    if (!ctx || !paintCanvas) return;
+    ctx.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
+  }
+
+  async function sendStrokeToFirestore(x1, y1, x2, y2, color, size) {
+    if (!db) return; // работает локально без онлайн
+    try {
+      await db.collection("strokes").add({
+        x1, y1, x2, y2,
+        color,
+        size,
+        author: currentProfile.name || "анонім",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch(e) { }
+  }
+
+  function drawStroke(d) {
+    if (!ctx || !paintCanvas) return;
+    ctx.strokeStyle = d.color || "#ff7b39";
+    ctx.lineWidth = d.size || 4;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(d.x1, d.y1);
+    ctx.lineTo(d.x2, d.y2);
+    ctx.stroke();
+  }
+
+  function subscribeStrokes() {
+    if (!db || !paintCanvas) return;
+    db.collection("strokes")
+      .orderBy("createdAt", "asc")
+      .limit(2000)
+      .onSnapshot(snap => {
+        clearLocalCanvas();
+        snap.forEach(doc => drawStroke(doc.data()));
+      });
+  }
+
+  // -----------------------------------------------------------
+  // 7. GAMES + LEADERBOARD
+  // -----------------------------------------------------------
+  let clickScore = 0;
+  const scoreClickBadge = document.getElementById("scoreClickBadge");
+  const clickComment = document.getElementById("clickComment");
+
+  function clickGame() {
+    clickScore++;
+    updateClickScoreBadge();
+    if (Math.random() < 0.3) {
+      clickComment.textContent = randomClickComment();
+    }
+  }
+
+  function resetClickGame() {
+    clickScore = 0;
+    updateClickScoreBadge();
+    clickComment.textContent = "ти офіційно почав життя з нуля (знову).";
+  }
+
+  function updateClickScoreBadge() {
+    scoreClickBadge.textContent = "clicker score: " + clickScore;
+  }
+
+  function randomClickComment() {
+    const list = [
+      "з таким старанням ти міг би уроки робити.",
+      "ти просто вбиваєш кнопку, остав її в покоє.",
+      "еще чуть-чуть і в тебе буде травма пальця.",
+      "я дивлюсь на тебе і думаю: 'ну хоч йому весело'.",
+      "ти уже виграв? нет. але продовжуй.",
+      "міхалич слідкує за тобой і записує долги.",
+      "зачєм ти це робиш? ах да, бо прикольно.",
+      "кожен клік — це мінус 1 нейрон, плюс 1 вайб."
+    ];
+    return list[Math.floor(Math.random() * list.length)];
+  }
+
+  let reactionState = "idle";
+  let reactionStartTime = 0;
+  let reactionBest = null;
+  const reactBox = document.getElementById("reactBox");
+  const reactComment = document.getElementById("reactComment");
+  const scoreReactBadge = document.getElementById("scoreReactBadge");
+
+  function startReactionGame() {
+    reactionState = "waiting";
+    reactComment.textContent = "жди, не клікай, коробка сама позеленіє...";
+    reactBox.style.background = "#3b1111";
+    reactBox.textContent = "ждьом сигнал від Міхалича...";
+    const delay = 1000 + Math.random() * 3000;
+    setTimeout(() => {
+      if (reactionState !== "waiting") return;
+      reactionState = "ready";
+      reactBox.style.background = "#14532d";
+      reactBox.textContent = "КЛІКАЙ ЗАРАЗ!!!";
+      reactionStartTime = performance.now();
+    }, delay);
+  }
+
+  reactBox.addEventListener("click", () => {
+    if (reactionState === "waiting") {
+      reactComment.textContent = "рано клацнув, ти нетерплячий. спробуй знову.";
+      reactionState = "idle";
+      reactBox.style.background = "#3b1111";
+      reactBox.textContent = "ждьом старт...";
+    } else if (reactionState === "ready") {
+      const t = performance.now() - reactionStartTime;
+      reactionState = "idle";
+      reactBox.style.background = "#3b1111";
+      reactBox.textContent = "ждьом старт...";
+      const ms = Math.round(t);
+      if (reactionBest === null || ms < reactionBest) {
+        reactionBest = ms;
+        scoreReactBadge.textContent = "reaction best: " + reactionBest + " ms";
+        reactComment.textContent = "красава, новий рекорд: " + ms + " ms. мозг ще живий.";
+      } else {
+        reactComment.textContent = "твій час: " + ms + " ms. можеш краще.";
+      }
+    }
+  });
+
+  const leaderboardDiv = document.getElementById("leaderboard");
+
+  async function saveScore(type) {
+    if (!db) {
+      alert("Firebase не підключен, топ не збережеться.");
+      return;
+    }
+    if (!currentProfile.name) {
+      alert("вкажи нік в аккаунті перед тим як лізти в топи.");
+      return;
+    }
+
+    if (type === "clicker") {
+      const score = clickScore;
+      await db.collection("scores").add({
+        type: "clicker",
+        user: currentProfile.name,
+        score,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      alert("результат clicker збережен.");
+    } else if (type === "reaction") {
+      if (reactionBest === null) {
+        alert("ще не було нормального заміру реакції.");
+        return;
+      }
+      const score = reactionBest;
+      await db.collection("scores").add({
+        type: "reaction",
+        user: currentProfile.name,
+        score,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      alert("результат reaction збережен.");
+    }
+  }
+
+  function subscribeLeaderboard() {
+    if (!db || !leaderboardDiv) return;
+
+    db.collection("scores")
+      .where("type", "==", "clicker")
+      .orderBy("score", "desc")
+      .limit(10)
+      .onSnapshot(snap => {
+        renderLeaderboard(snap, "CLICKER TOP");
+      });
+
+    db.collection("scores")
+      .where("type", "==", "reaction")
+      .orderBy("score", "asc")
+      .limit(10)
+      .onSnapshot(snap => {
+        renderLeaderboard(snap, "REACTION TOP (ms, менше краще)");
+      });
+  }
+
+  function renderLeaderboard(snap, title) {
+    if (!leaderboardDiv) return;
+
+    const section = document.createElement("div");
+    const h = document.createElement("div");
+    h.textContent = title;
+    h.style.fontSize = "11px";
+    h.style.fontWeight = "700";
+    h.style.margin = "4px 0 2px";
+    section.appendChild(h);
+
+    snap.forEach(doc => {
+      const d = doc.data();
+      const row = document.createElement("div");
+      row.className = "lb-row";
+      const name = document.createElement("span");
+      name.textContent = d.user || "анонім";
+      const score = document.createElement("span");
+      score.textContent = d.score;
+      row.appendChild(name);
+      row.appendChild(score);
+      section.appendChild(row);
+    });
+
+    leaderboardDiv.innerHTML = "";
+    leaderboardDiv.appendChild(section);
+  }
+
+  // -----------------------------------------------------------
+  // INIT
+  // -----------------------------------------------------------
+  window.addEventListener("load", () => {
+    loadProfile();
+
+    // Canvas init
+    if (paintCanvas) {
+      ctx = paintCanvas.getContext("2d");
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      paintCanvas.addEventListener("mousedown", e => { e.preventDefault(); startDraw(e); });
+      paintCanvas.addEventListener("mousemove", moveDraw);
+      paintCanvas.addEventListener("mouseup", stopDraw);
+      paintCanvas.addEventListener("mouseleave", stopDraw);
+
+      paintCanvas.addEventListener("touchstart", e => { e.preventDefault(); startDraw(e); }, { passive: false });
+      paintCanvas.addEventListener("touchmove", e => { e.preventDefault(); moveDraw(e); }, { passive: false });
+      paintCanvas.addEventListener("touchend", e => { e.preventDefault(); stopDraw(e); }, { passive: false });
+    }
+
+    // Подписки Firebase
+    if (db) {
+      subscribePosts();
+      subscribeVoices();
+      subscribeStrokes();
+      subscribeLeaderboard();
+    } else {
+      console.warn("Firebase не підключен — все живе тільки у тебе в браузері, без шарінга.");
+    }
+
+    updateClickScoreBadge();
+  });
+</script>
+</body>
+</html>
